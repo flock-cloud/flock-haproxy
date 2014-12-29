@@ -5,6 +5,7 @@ var Marathon = require('marathon.node'),
 
 // TODO read from consul
 var MARATHON_API = 'http://10.141.141.10:8080';
+var DOMAIN = 'flock.com';
 
 var args = process.argv.slice(2);
 var HAPROXY_CONFIG_FILE = args[0] || '/etc/haproxy/haproxy.cfg';
@@ -24,7 +25,7 @@ client.apps.list().then(function(res) {
                        .map(function (task) { return _.pick(task, 'appId', 'host', 'ports') })
                        .value();
 
-        var haproxyConfig = render({'apps': apps, 'tasks': tasks, 'backups': backups});
+        var haproxyConfig = render({'apps': apps, 'tasks': tasks, 'backups': backups, 'domain': DOMAIN});
 
         fs.writeFileSync(HAPROXY_CONFIG_FILE, haproxyConfig);
 

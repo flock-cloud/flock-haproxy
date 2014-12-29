@@ -30,7 +30,7 @@ frontend http-in
     option httpclose
 
     <% apps.forEach(function (app) { %>
-    acl acl_<%=: app | beautify %> hdr(host) -i <%=: app | beautify %>.flock.com
+    acl acl_<%=: app | beautify %> hdr(host) -i <%=: app | beautify %>.<%= domain %>
     use_backend backend_<%=: app | beautify %> if acl_<%=: app | beautify %>
     <% }) %>
 
