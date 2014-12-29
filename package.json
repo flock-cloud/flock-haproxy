@@ -1,0 +1,25 @@
+{
+  "name": "flock-haproxy",
+  "version": "1.0.0",
+  "description": "Flock HAProxy configurator",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:palmerabollo/flock-haproxy.git"
+  },
+  "keywords": [
+    "flock",
+    "haproxy"
+  ],
+  "author": "Guido García",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^1.0.0",
+    "marathon.node": "^0.0.1",
+    "request": "^2.51.0",
+    "underscore": "^1.7.0"
+  }
+}

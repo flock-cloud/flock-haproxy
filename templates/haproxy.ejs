@@ -1,0 +1,60 @@
+#
+# flock-haproxy template
+#
+
+global
+    daemon
+    log 127.0.0.1 local0
+    log 127.0.0.1 local1 notice
+    maxconn 4096
+
+defaults
+    log            global
+    retries             3
+    maxconn          2000
+    timeout connect  5000
+    timeout client  50000
+    timeout server  50000
+
+listen stats
+    bind *:9090
+    balance
+    mode http
+    stats enable
+    stats auth admin:admin
+
+frontend http-in
+    bind *:80
+    mode http
+    option forwardfor
+    option httpclose
+
+    <% apps.forEach(function (app) { %>
+    acl acl_<%=: app | beautify %> hdr(host) -i <%=: app | beautify %>.flock.com
+    use_backend backend_<%=: app | beautify %> if acl_<%=: app | beautify %>
+    <% }) %>
+
+#    default_backend backend_default
+
+<% apps.forEach(function (app) { %>
+backend backend_<%=: app | beautify %>
+    balance leastconn
+    mode http
+
+    <% backups.forEach(function (backup) { %>
+        <% backup.ports.forEach(function (port) { %>
+    server server_backup_<%=: backup.host | beautify %>_<%= port %> <%= backup.host %>:<%= port %> check backup
+        <% }) %>
+    <% }) %>
+
+    <% if (tasks[app]) { %>
+        <% tasks[app].forEach(function (task) { %>
+            <% task.ports.forEach(function (port) { %>
+    server server_<%=: task.host | beautify %>_<%= port %> <%= task.host %>:<%= port %> check
+            <% }) %>
+        <% }) %>
+    <% } %>
+<% }) %>
+
+# backend backend_default
+#    server server-home 10.140.140.10:30000 check
