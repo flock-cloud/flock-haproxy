@@ -40,6 +40,7 @@ frontend http-in
 backend backend_<%=: app | beautify %>
     balance leastconn
     mode http
+    http-request set-header X-Flock-App <%= app %>
 
     <% backups.forEach(function (backup) { %>
         <% backup.ports.forEach(function (port) { %>
