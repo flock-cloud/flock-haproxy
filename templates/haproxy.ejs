@@ -13,14 +13,15 @@ defaults
     retries             3
     maxconn          2000
     timeout connect  5000
-    timeout client  50000
-    timeout server  50000
+    timeout client  65000
+    timeout server  65000
 
-listen stats
-    bind *:9090
-    balance
+listen stats :9090
     mode http
     stats enable
+    stats hide-version
+    stats realm flock\ haproxy\ stats
+    stats uri /
     stats auth admin:admin
 
 frontend http-in
