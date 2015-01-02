@@ -35,7 +35,7 @@ client.apps.list().then(function(res) {
 
 ejs.filters.beautify = function(name) {
     var result = name.replace(/\/|-|\./g, '_');
-    if (result.indexOf('_') == 0) {
+    if (result.indexOf('_') === 0) {
         result = result.substring(1);
     }
     return result;
