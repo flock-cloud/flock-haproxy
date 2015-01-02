@@ -21,7 +21,7 @@ client.apps.list().then(function(res) {
                      .value();
 
         var backups = _.chain(res.tasks)
-                       .filter(function (task) { return task.appId.indexOf('/flock-backup') === 0})
+                       .filter(function (task) { return task.appId.indexOf('/flock-backup') === 0 })
                        .map(function (task) { return _.pick(task, 'appId', 'host', 'ports') })
                        .value();
 

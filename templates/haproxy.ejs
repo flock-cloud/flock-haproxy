@@ -5,7 +5,6 @@
 global
     daemon
     log 127.0.0.1 local0
-    log 127.0.0.1 local1 notice
     maxconn 4096
 
 defaults
@@ -32,13 +31,13 @@ frontend http-in
 
     <% apps.forEach(function (app) { %>
     acl acl_<%=: app | beautify %> hdr(host) -i <%=: app | beautify %>.<%= domain %>
-    use_backend backend_<%=: app | beautify %> if acl_<%=: app | beautify %>
+    use_backend backend_<%=: app %> if acl_<%=: app | beautify %>
     <% }) %>
 
 #    default_backend backend_default
 
 <% apps.forEach(function (app) { %>
-backend backend_<%=: app | beautify %>
+backend backend_<%=: app %>
     balance leastconn
     mode http
     http-request set-header X-Flock-App <%= app %>
