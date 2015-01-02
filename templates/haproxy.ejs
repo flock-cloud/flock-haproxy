@@ -31,13 +31,13 @@ frontend http-in
 
     <% apps.forEach(function (app) { %>
     acl acl_<%=: app | beautify %> hdr(host) -i <%=: app | beautify %>.<%= domain %>
-    use_backend backend_<%=: app | replace:'/','' %> if acl_<%=: app | beautify %>
+    use_backend <%=: app | replace:'/','' %> if acl_<%=: app | beautify %>
     <% }) %>
 
 #    default_backend backend_default
 
 <% apps.forEach(function (app) { %>
-backend backend_<%=: app | replace:'/','' %>
+backend <%=: app | replace:'/','' %>
     balance leastconn
     mode http
     http-request set-header X-Flock-App <%= app %>
