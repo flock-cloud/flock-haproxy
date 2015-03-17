@@ -15,7 +15,8 @@ defaults
     timeout client  70000
     timeout server  70000
 
-listen stats :9090
+listen stats
+    bind 0.0.0.0:9090
     mode http
     stats enable
     stats hide-version
